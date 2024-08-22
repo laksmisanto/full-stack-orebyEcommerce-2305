@@ -126,7 +126,6 @@ async function ChangepasswordController(req, res) {
   try {
     let existingUser = await userSchema.find({ email });
     if (existingUser.length > 0) {
-      console.log("success");
       jwt.verify(token, "mern", function (err, decoded) {
         if (err) {
           return res.status(404).send({ error: "token  not found " });

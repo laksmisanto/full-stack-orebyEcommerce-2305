@@ -30,7 +30,6 @@ async function categoryapproveController(req, res) {
     if (user) {
       if (user.role == "admin") {
         if (categoryAction == "true") {
-          console.log("you click true/active");
           let categorydata = await categorySchema.findByIdAndUpdate(
             { _id: categoryId },
             { isActive: true },
@@ -38,7 +37,6 @@ async function categoryapproveController(req, res) {
           );
           res.status(201).send({ success: "Category approved", categorydata });
         } else if (categoryAction == "false") {
-          console.log("you click false/de-active");
           let categorydata = await categorySchema.findByIdAndUpdate(
             { _id: categoryId },
             { isActive: false },
@@ -103,6 +101,30 @@ async function singlecategoryController(req, res) {
     res.status(404).send({ error: error });
   }
 }
+async function categoryUpdateController(req, res) {
+  const { name, description, _id, email } = req.body;
+
+  const exitingUser = await userSchema.findOne({ email });
+  try {
+    if (exitingUser.role == "admin") {
+      const category = await categorySchema.findByIdAndUpdate(
+        { _id },
+        {
+          $set: {
+            name: name,
+            description: description,
+          },
+        },
+        { new: true }
+      );
+      res.send(category);
+    } else {
+      res.status(400).send({ error: "You can't update category" });
+    }
+  } catch (error) {
+    return res.status(404).send({ error: error });
+  }
+}
 
 module.exports = {
   createcategoryController,
@@ -110,4 +132,5 @@ module.exports = {
   categoryDeleteController,
   getAllcateogory,
   singlecategoryController,
+  categoryUpdateController,
 };

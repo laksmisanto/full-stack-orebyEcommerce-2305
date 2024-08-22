@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { AiFillWarning } from "react-icons/ai";
 
 const AllUser = () => {
   const [userList, setUserList] = useState([]);
@@ -8,6 +9,9 @@ const AllUser = () => {
   const [updateName, setUpdateName] = useState("");
   const [updateEmail, setUpdateEmail] = useState("");
   const [updateRole, setUpdateRole] = useState("");
+  const [deleteModel, setDeleteModel] = useState(false);
+
+  const [userId, setUserId] = useState("");
 
   async function Allusers() {
     await axios
@@ -45,14 +49,22 @@ const AllUser = () => {
   };
 
   const handleDeleteUser = async (id) => {
+    setUserId(id);
+    setDeleteModel(true);
+  };
+
+  const handlePermanentDelete = async () => {
     await axios
       .post("http://localhost:3000/api/v1/auth/userdelete", {
-        _id: id,
+        _id: userId,
       })
       .then(() => {
         console.log("Successfully Delete User");
-        console.log(id);
+        setDeleteModel(false);
       });
+  };
+  const handleCancelDelete = () => {
+    setDeleteModel(false);
   };
 
   return (
@@ -188,6 +200,39 @@ const AllUser = () => {
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm mt-3 px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 outline-none"
                 >
                   Update User
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* confirmation popup delete model */}
+      {deleteModel && (
+        <div className="absolute w-full h-full  backdrop-blur-sm flex justify-center items-center">
+          <div className="rounded bg-gray-800 px-5 py-6 shadow ">
+            <div className="flex justify-start items-start border-b border-gray-600 pb-2">
+              <AiFillWarning size={28} color="#DC143C" />
+              <span className="text-lg pl-2 font-semibold text-red-600">
+                Delete Category?
+              </span>
+            </div>
+            <div className="pt-2">
+              <p className="text-base text-gray-400">
+                Are you sure you want to delete this category?
+              </p>
+              <div className="mt-5 text-center">
+                <button
+                  onClick={handlePermanentDelete}
+                  className="mr-10 px-4 py-1 text-white bg-red-600 rounded"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={handleCancelDelete}
+                  className="px-4 py-1 text-white bg-sky-600 rounded"
+                >
+                  No
                 </button>
               </div>
             </div>
