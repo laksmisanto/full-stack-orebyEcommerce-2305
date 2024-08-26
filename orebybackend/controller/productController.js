@@ -1,10 +1,19 @@
 const productSchema = require("../model/productSchema");
 
 async function createProductController(req, res) {
-  const { name, description, image, category, sellingPrice, price, ownerId } =
-    req.body;
+  const {
+    name,
+    description,
+    image,
+    category,
+    sellingPrice,
+    price,
+    ownerId,
+    store,
+  } = req.body;
 
-  res.send(req.file);
+  console.log(req.body);
+  console.log(req.file);
   return;
 
   try {
@@ -16,6 +25,7 @@ async function createProductController(req, res) {
       sellingPrice,
       price,
       ownerId,
+      store,
     });
     await product.save();
     res.send(product);
