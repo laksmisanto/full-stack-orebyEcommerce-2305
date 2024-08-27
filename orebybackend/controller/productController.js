@@ -1,38 +1,75 @@
+const categorySchema = require("../model/categorySchema");
 const productSchema = require("../model/productSchema");
+const storeSchema = require("../model/storeSchema");
+const cloudinary = require("cloudinary").v2;
+const fs = require("fs");
 
 async function createProductController(req, res) {
   const {
     name,
     description,
-    image,
-    category,
+    categoryId,
     sellingPrice,
     price,
     ownerId,
-    store,
+    storeId,
   } = req.body;
 
-  console.log(req.body);
-  console.log(req.file);
-  return;
+  // console.log(req.file);
+  // const exitingCategoryId = await categorySchema.find({ _id: categoryId });
+  // console.log("category id :", exitingCategoryId);
+  // res.send(exitingStoreId);
+  // return;
 
   try {
+    // Upload image to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "ecommerce_image",
+    });
+
+    fs.unlink(req.file.path, () => {
+      console.log("Image delete successfully.");
+    });
+
     const product = new productSchema({
       name,
       description,
-      image,
-      category,
+      image: result.secure_url,
+      categoryId,
       sellingPrice,
       price,
       ownerId,
-      store,
+      storeId,
     });
     await product.save();
-    res.send(product);
+    res.status(401).send({ message: "Product created successfully.", product });
+
+    await storeSchema.findOneAndUpdate(
+      { _id: storeId },
+      { $push: { productId: product._id } },
+      { new: true }
+    );
+
+    await categorySchema.findOneAndUpdate(
+      { _id: categoryId },
+      { $push: { categoryId: product._id } },
+      { new: true }
+    );
   } catch (error) {
-    res.status(404).send({ error: error });
+    console.error(error);
+    res.status(500).json({ error: "can't create product" });
   }
 }
+
+async function allProductController(req, res) {
+  try {
+    const product = await productSchema.find({});
+    res.status(201).send({ product });
+  } catch (error) {
+    res.status(404).send({ message: error });
+  }
+}
+
 function updateProductController(req, res) {
   res.send("update product function");
 }
@@ -45,6 +82,7 @@ async function deleteProductController(req, res) {
 
 module.exports = {
   createProductController,
+  allProductController,
   updateProductController,
   deleteProductController,
 };

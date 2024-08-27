@@ -29,17 +29,16 @@ const AddProduct = () => {
     formData.append("name", productInfo.name);
     formData.append("description", description);
     formData.append("image", imageUrl);
-    formData.append("category", selectCategory);
+    formData.append("categoryId", selectCategory);
     formData.append("sellingPrice", productInfo.sellingPrice);
     formData.append("price", productInfo.price);
     formData.append("ownerId", user._id);
-    formData.append("store", selectStore);
+    formData.append("storeId", selectStore);
 
     await axios
       .post("http://localhost:3000/api/v1/product/createproduct", formData)
-      .then((data) => {
-        console.log(data);
-        console.log("successfully save data", formData);
+      .then(() => {
+        console.log("successfully save data");
       });
   };
 
@@ -51,7 +50,6 @@ const AddProduct = () => {
           setCategoryData(data.data.category);
         });
     }
-
     async function getAllStore() {
       await axios
         .get("http://localhost:3000/api/v1/store/allstore")
@@ -59,8 +57,9 @@ const AddProduct = () => {
           setStoreData(data.data.store);
         });
     }
-    getAllStore();
+
     getAllCategory();
+    getAllStore();
   }, []);
 
   return (
@@ -130,7 +129,7 @@ const AddProduct = () => {
             >
               <option>Chose a category</option>
               {categoryData.map((item, i) => (
-                <option key={i} value={item.name}>
+                <option key={i} value={item._id}>
                   {item.name}
                 </option>
               ))}
@@ -148,7 +147,7 @@ const AddProduct = () => {
             >
               <option>Chose a Store</option>
               {storeData.map((item, i) => (
-                <option key={i} value={item.name}>
+                <option key={i} value={item._id}>
                   {item.name}
                 </option>
               ))}

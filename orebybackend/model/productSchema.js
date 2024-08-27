@@ -14,10 +14,11 @@ const productSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
+    categoryId: {
+      type: mongoose.Schema.ObjectId,
       ref: "Category",
     },
+
     sellingPrice: {
       type: String,
     },
@@ -26,8 +27,12 @@ const productSchema = new mongoose.Schema(
       // require: true,
     },
     ownerId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.ObjectId,
       ref: "User",
+    },
+    storeId: {
+      type: mongoose.Schema.ObjectId,
+      ref: "Store",
     },
   },
   { timestamps: true }

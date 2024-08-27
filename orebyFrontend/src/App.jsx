@@ -20,6 +20,7 @@ import UpdateProduct from "./admin/UpdateProduct";
 import AllCategory from "./admin/AllCategory";
 import AddCategory from "./admin/AddCategory";
 import UpdateCategory from "./admin/UpdateCategory";
+import Store from "./admin/Store";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,6 +46,7 @@ const router = createBrowserRouter(
         <Route path="/admin/allcategory" element={<AllCategory />} />
         <Route path="/admin/addcategory" element={<AddCategory />} />
         <Route path="/admin/updatecategory" element={<UpdateCategory />} />
+        <Route path="/admin/store" element={<Store />} />
       </Route>
     </Route>
   )

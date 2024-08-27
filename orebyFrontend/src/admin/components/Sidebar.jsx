@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaStore } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,7 +25,7 @@ const Sidebar = () => {
     <>
       <aside
         id="sidebar-multi-level-sidebar"
-        className="relative top-0 left-0 z-40 min-w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="relative top-0 left-0 z-40 min-w-64 min-h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-full w-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -171,6 +171,22 @@ const Sidebar = () => {
                   </Link>
                 </li>
               </ul>
+            </li>
+            {/* Store dropdown start */}
+            <li>
+              <button
+                type="button"
+                className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              >
+                <FaStore />
+
+                <Link
+                  to={"/admin/store"}
+                  className="pl-3 flex items-center w-full text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Store
+                </Link>
+              </button>
             </li>
           </ul>
           <button
