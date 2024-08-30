@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import Product from "./Product";
 
 const Pagination = ({ itemsPerPage, proudcts }) => {
   const items = proudcts;
-  console.log(itemsPerPage);
+  // console.log(itemsPerPage);
 
   function Items({ currentItems }) {
     return (
       <div className=" flex flex-wrap gap-5 ">
         {currentItems &&
-          currentItems.map((item) => (
-            <div>
-              <Product pInfo={item} pimage={item.thumbnail} isNew={true} />
+          currentItems.map((item, i) => (
+            <div key={i}>
+              <Product pInfo={item} pimage={item.image} isNew={true} />
             </div>
           ))}
       </div>

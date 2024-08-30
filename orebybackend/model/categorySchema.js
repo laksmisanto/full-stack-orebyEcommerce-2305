@@ -13,12 +13,10 @@ const categorySchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  productId: [
-    {
-      type: mongoose.Schema.ObjectId,
-      ref: "Product",
-    },
-  ],
+  productId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Product",
+  },
 });
 
 module.exports = mongoose.model("Category", categorySchema);

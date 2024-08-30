@@ -15,7 +15,7 @@ async function createProductController(req, res) {
     storeId,
   } = req.body;
 
-  // console.log(req.file);
+  // console.log(categoryId);
   // const exitingCategoryId = await categorySchema.find({ _id: categoryId });
   // console.log("category id :", exitingCategoryId);
   // res.send(exitingStoreId);
@@ -49,10 +49,9 @@ async function createProductController(req, res) {
       { $push: { productId: product._id } },
       { new: true }
     );
-
     await categorySchema.findOneAndUpdate(
       { _id: categoryId },
-      { $push: { categoryId: product._id } },
+      { $push: { productId: product._id } },
       { new: true }
     );
   } catch (error) {

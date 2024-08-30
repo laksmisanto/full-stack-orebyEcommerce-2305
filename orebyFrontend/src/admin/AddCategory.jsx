@@ -22,8 +22,8 @@ const AddCategory = () => {
           description: storeCategory.description,
         })
         .then(() => {
-          console.log("Category Create Successful");
           navigate("/admin/allcategory");
+          console.log("Category Create Successful");
         });
     } catch (error) {
       console.log("Category Error : ", error);

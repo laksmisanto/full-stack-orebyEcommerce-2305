@@ -1,13 +1,12 @@
 const express = require("express");
 const {
-  createProductController,
-  deleteProductController,
-  allProductController,
-} = require("../../../controller/productController");
-const router = express.Router();
+  createBannerImageController,
+  allBannerImageController,
+} = require("../../../controller/bannerImageController");
 const multer = require("multer");
-const cloudinary = require("cloudinary").v2;
+const router = express.Router();
 const path = require("path");
+const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -15,7 +14,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET, // Click 'View API Keys' above to copy your API secret
 });
 
-// Set up multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -27,8 +25,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage, limits: { fileSize: 2 * 1024 * 1024 } });
 
-router.post("/createproduct", upload.single("image"), createProductController);
-router.get("/allproduct", allProductController);
-router.post("/deleteproduct", deleteProductController);
+router.post(
+  "/createbannerimage",
+  upload.single("image"),
+  createBannerImageController
+);
+router.get("/allbannerimage", allBannerImageController);
 
 module.exports = router;

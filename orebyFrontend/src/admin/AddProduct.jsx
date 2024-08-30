@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
+  const navigate = useNavigate();
   const user = useSelector((data) => data.userInfo.value);
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
@@ -24,7 +26,6 @@ const AddProduct = () => {
   };
 
   const handleCategorySubmit = async () => {
-    console.log("successfully save data out");
     const formData = new FormData();
     formData.append("name", productInfo.name);
     formData.append("description", description);
@@ -35,11 +36,19 @@ const AddProduct = () => {
     formData.append("ownerId", user._id);
     formData.append("storeId", selectStore);
 
-    await axios
-      .post("http://localhost:3000/api/v1/product/createproduct", formData)
-      .then(() => {
-        console.log("successfully save data");
-      });
+    try {
+      await axios
+        .post("http://localhost:3000/api/v1/product/createproduct", {
+          formData,
+        })
+        .then(() => {
+          navigate("/admin/allproducts");
+          console.log("successfully save data");
+          alert("product created");
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

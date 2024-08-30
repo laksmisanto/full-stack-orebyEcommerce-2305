@@ -41,4 +41,17 @@ async function AllStoreController(req, res) {
   }
 }
 
-module.exports = { storeController, AllStoreController };
+async function deleteStoreController(req, res) {
+  const { _id } = req.body;
+
+  const deleteStore = await storeSchema.findByIdAndDelete(
+    { _id: _id },
+    { new: true }
+  );
+
+  res
+    .status(500)
+    .send({ message: "Store Data delete Successful", deleteStore });
+}
+
+module.exports = { storeController, AllStoreController, deleteStoreController };

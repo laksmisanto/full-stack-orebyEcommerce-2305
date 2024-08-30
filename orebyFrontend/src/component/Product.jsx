@@ -26,13 +26,14 @@ const Product = ({ pimage, isNew, pInfo }) => {
           </ul>
         </div>
       </div>
+
       <h4 className=" bg-primary font-sm font-bold  py-2 px-7 inline-block text-white absolute top-5 left-5">
         {pInfo ? pInfo.stock : "0 "}
       </h4>
 
       <Flex className=" justify-between mt-6">
         <h2 className=" text-xl font-bold text-primary ">
-          {pInfo ? pInfo.title : "Basic Crew Neck Tee"}
+          {pInfo ? pInfo.name : "Basic Crew Neck Tee"}
         </h2>
         <h4 className=" text-base font-normal  text-secandary leading-[30px] ">
           ${pInfo ? pInfo.price : "0"}
