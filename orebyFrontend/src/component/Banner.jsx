@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "./Image";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Banner = () => {

@@ -158,15 +158,14 @@ const AllUser = () => {
                     name="name"
                     value={updateName}
                     id="name"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white outline-none"
+                    className=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white outline-none"
                     placeholder="name"
                     required=""
                   />
                 </div>
                 <div className="my-3">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    {/* You can not update email */}
-                    Email
+                  <label className="block mb-2 text-sm font-medium text-red-500 dark:text-red-500">
+                    You can not update email
                   </label>
                   <input
                     type="email"
@@ -174,8 +173,8 @@ const AllUser = () => {
                     name="email"
                     value={updateEmail}
                     id="email"
-                    // disabled
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white outline-none"
+                    disabled
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-gray-400 outline-none"
                     placeholder="name"
                     required=""
                   />

@@ -2,6 +2,7 @@ const express = require("express");
 const {
   createBannerImageController,
   allBannerImageController,
+  deleteBannerImageController,
 } = require("../../../controller/bannerImageController");
 const multer = require("multer");
 const router = express.Router();
@@ -31,5 +32,6 @@ router.post(
   createBannerImageController
 );
 router.get("/allbannerimage", allBannerImageController);
+router.post("/deletebannerimage", deleteBannerImageController);
 
 module.exports = router;

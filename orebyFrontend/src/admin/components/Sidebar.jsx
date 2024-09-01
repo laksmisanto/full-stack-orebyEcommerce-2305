@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUser, FaStore } from "react-icons/fa";
+import { FaUser, FaStore, FaRegImages, FaMoneyCheckAlt } from "react-icons/fa";
 import { FaAngleDown } from "react-icons/fa";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
@@ -185,6 +185,37 @@ const Sidebar = () => {
                   className="pl-3 flex items-center w-full text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                 >
                   Store
+                </Link>
+              </button>
+            </li>
+            {/* BannerImage dropdown start */}
+            <li>
+              <button
+                type="button"
+                className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              >
+                <FaRegImages />
+
+                <Link
+                  to={"/admin/bannerimage"}
+                  className="pl-3 flex items-center w-full text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Banner Image
+                </Link>
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              >
+                <FaMoneyCheckAlt />
+
+                <Link
+                  to={"/admin/discount"}
+                  className="pl-3 flex items-center w-full text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                >
+                  Discount
                 </Link>
               </button>
             </li>

@@ -17,6 +17,10 @@ const categorySchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: "Product",
   },
+  discount: {
+    type: String,
+    ref: "Discount",
+  },
 });
 
 module.exports = mongoose.model("Category", categorySchema);

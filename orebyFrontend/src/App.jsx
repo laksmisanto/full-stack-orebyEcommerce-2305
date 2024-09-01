@@ -21,6 +21,8 @@ import AllCategory from "./admin/AllCategory";
 import AddCategory from "./admin/AddCategory";
 import UpdateCategory from "./admin/UpdateCategory";
 import Store from "./admin/Store";
+import BannerImage from "./admin/BannerImage";
+import Discount from "./admin/Discount";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +49,8 @@ const router = createBrowserRouter(
         <Route path="/admin/addcategory" element={<AddCategory />} />
         <Route path="/admin/updatecategory" element={<UpdateCategory />} />
         <Route path="/admin/store" element={<Store />} />
+        <Route path="/admin/bannerimage" element={<BannerImage />} />
+        <Route path="/admin/discount" element={<Discount />} />
       </Route>
     </Route>
   )

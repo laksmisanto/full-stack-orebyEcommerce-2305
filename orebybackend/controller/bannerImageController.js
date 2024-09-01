@@ -4,23 +4,30 @@ const bannerImageSchema = require("../model/bannerImageSchema");
 
 async function createBannerImageController(req, res) {
   try {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "banner_image",
-    });
+    const exitingImages = await bannerImageSchema.find({});
 
-    fs.unlink(req.file.path, () => {
-      console.log("Image delete successful");
-    });
+    if (exitingImages.length < 3) {
+      console.log(exitingImages.length);
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "banner_image",
+      });
 
-    const bannerImage = new bannerImageSchema({
-      image: result.secure_url,
-    });
+      fs.unlink(req.file.path, () => {
+        console.log("Image delete successful");
+      });
 
-    await bannerImage.save();
+      const bannerImage = new bannerImageSchema({
+        image: result.secure_url,
+      });
 
-    res
-      .status(201)
-      .send({ message: "banner image upload successful ", bannerImage });
+      await bannerImage.save();
+
+      res
+        .status(201)
+        .send({ message: "banner image upload successful ", bannerImage });
+    } else {
+      console.log("3 lees then image support");
+    }
   } catch (error) {
     res.status(500).json({ error: "Error uploading image" });
   }
@@ -35,4 +42,25 @@ async function allBannerImageController(req, res) {
   }
 }
 
-module.exports = { createBannerImageController, allBannerImageController };
+async function deleteBannerImageController(req, res) {
+  try {
+    let { imageId, image } = req.body;
+    let deleteImage = await bannerImageSchema.findByIdAndDelete({
+      _id: imageId,
+    });
+
+    res
+      .status(201)
+      .send({ message: "Banner image delete successful", deleteImage });
+  } catch (error) {
+    res
+      .status(201)
+      .send({ message: "something is wrong delete banner image", error });
+  }
+}
+
+module.exports = {
+  createBannerImageController,
+  allBannerImageController,
+  deleteBannerImageController,
+};
