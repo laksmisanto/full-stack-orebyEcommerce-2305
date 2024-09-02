@@ -18,7 +18,7 @@ const AllProducts = () => {
   }, []);
   return (
     <>
-      <div className="mx-3 w-full overflow-x-auto">
+      <div className="mx-3 w-full h-screen overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-sm text-gray-800 uppercase bg-gray-200">
             <tr>

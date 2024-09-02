@@ -1,17 +1,20 @@
+const categorySchema = require("../model/categorySchema");
 const discountSchema = require("../model/discountSchema");
 const userSchema = require("../model/userSchema");
 
 async function createDiscountController(req, res) {
-  try {
-    const { amount, userId, categoryId } = req.body;
+  const { amount, userId, categoryId } = req.body;
 
+  try {
     const exitingUser = await userSchema.findById({ _id: userId });
+    const findCategoryName = await categorySchema.findById({ _id: categoryId });
 
     if (exitingUser.role == "admin" || exitingUser.role == "merchant") {
       const discount = await discountSchema({
         amount,
         userId,
         categoryId,
+        categoryName: findCategoryName.name,
       });
       await discount.save();
 

@@ -38,17 +38,17 @@ const Store = () => {
     setDeleteModel(true);
   };
   const handlePermanentDelete = async () => {
-    console.log("delete store data");
-    await axios
-      .post("http://localhost:3000/api/v1/store/deletestore", {
-        _id: storeId,
-      })
-      .then(() => {
-        setDeleteModel(false);
-        console.log("Store data successfully delete");
-      });
-    setDeleteModel(false);
-    console.log("after delete store data");
+    try {
+      await axios
+        .post("http://localhost:3000/api/v1/store/deletestore", {
+          _id: storeId,
+        })
+        .then(() => {
+          setDeleteModel(false);
+        });
+    } catch (error) {
+      console.log("store data delete error :", error);
+    }
   };
   const handleCancelDelete = () => {
     setDeleteModel(false);

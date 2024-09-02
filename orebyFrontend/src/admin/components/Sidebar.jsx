@@ -25,10 +25,10 @@ const Sidebar = () => {
     <>
       <aside
         id="sidebar-multi-level-sidebar"
-        className="relative top-0 left-0 z-40 min-w-64 min-h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="h-screen bg-gray-800 pb-16 scroll-auto relative top-0 left-0 z-40 min-w-64 min-h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full w-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full w-full px-3 py-4 overflow-y-auto border-b-2 border-gray-600">
           <ul className="space-y-2 font-normal text-base">
             <li>
               <Link
@@ -220,14 +220,14 @@ const Sidebar = () => {
               </button>
             </li>
           </ul>
-          <button
-            onClick={handleLogout}
-            className="font-normal text-base flex items-center gap-2 absolute text-white bottom-6"
-          >
-            <MdLogout />
-            <span>logout</span>
-          </button>
         </div>
+        <button
+          onClick={handleLogout}
+          className="font-normal  w-full px-3 py-3 text-base flex items-center gap-2 absolute text-white bottom-3"
+        >
+          <MdLogout />
+          <span>logout</span>
+        </button>
       </aside>
     </>
   );

@@ -42,7 +42,7 @@ async function createProductController(req, res) {
       storeId,
     });
     await product.save();
-    res.status(401).send({ message: "Product created successfully.", product });
+    res.status(201).send({ message: "Product created successfully.", product });
 
     await storeSchema.findOneAndUpdate(
       { _id: storeId },
@@ -56,7 +56,7 @@ async function createProductController(req, res) {
     );
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "can't create product" });
+    res.status(401).json({ error: "can't create product" });
   }
 }
 

@@ -6,6 +6,9 @@ const discountSchema = new mongoose.Schema(
       type: Number,
       requited: true,
     },
+    categoryName: {
+      type: String,
+    },
     categoryId: {
       type: mongoose.Schema.ObjectId,
       ref: "Category",
