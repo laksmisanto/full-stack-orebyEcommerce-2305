@@ -33,10 +33,15 @@ const userSchema = new mongoose.Schema(
     otp: {
       type: Number,
     },
-
     token: {
       type: String,
     },
+    review: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Review",
+      },
+    ],
   },
   { timestamps: true }
 );

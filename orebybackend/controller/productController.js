@@ -79,9 +79,24 @@ async function deleteProductController(req, res) {
   });
 }
 
+async function singleProductController(req, res) {
+  const { id } = req.params;
+  try {
+    const singleProduct = await productSchema
+      .findOne({ _id: id })
+      .populate("review");
+    res
+      .status(201)
+      .send({ Message: "Your single product item is ", singleProduct });
+  } catch (error) {
+    res.status(400).send({ message: "perams error", error });
+  }
+}
+
 module.exports = {
   createProductController,
   allProductController,
   updateProductController,
   deleteProductController,
+  singleProductController,
 };

@@ -3,6 +3,7 @@ const {
   createProductController,
   deleteProductController,
   allProductController,
+  singleProductController,
 } = require("../../../controller/productController");
 const router = express.Router();
 const multer = require("multer");
@@ -30,5 +31,6 @@ const upload = multer({ storage, limits: { fileSize: 2 * 1024 * 1024 } });
 router.post("/createproduct", upload.single("image"), createProductController);
 router.get("/allproduct", allProductController);
 router.post("/deleteproduct", deleteProductController);
+router.get("/singleproduct/:id", singleProductController);
 
 module.exports = router;

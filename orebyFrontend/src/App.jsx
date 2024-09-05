@@ -23,6 +23,8 @@ import UpdateCategory from "./admin/UpdateCategory";
 import Store from "./admin/Store";
 import BannerImage from "./admin/BannerImage";
 import Discount from "./admin/Discount";
+import Error from "./component/Error";
+import ProductDetails from "./pages/ProductDetails";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,6 +33,7 @@ const router = createBrowserRouter(
         <Route index element={<Home title="Home" />}></Route>
         <Route path="/products" element={<Products title="Shop" />}></Route>
         <Route path="/forgetpassword" element={<Forgetpassword />}></Route>
+        <Route path="/productdetails/:id" element={<ProductDetails />} />
         <Route
           path="/changepassword/:token"
           element={<Changepassword />}
@@ -52,6 +55,7 @@ const router = createBrowserRouter(
         <Route path="/admin/bannerimage" element={<BannerImage />} />
         <Route path="/admin/discount" element={<Discount />} />
       </Route>
+      <Route path="*" element={<Error />} />
     </Route>
   )
 );

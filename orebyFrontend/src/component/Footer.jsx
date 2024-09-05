@@ -8,7 +8,7 @@ import Image from "./Image";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#F5F5F3] py-[55px] mt-[150px]">
+    <footer className="bg-[#F5F5F3] py-[55px] mt-5">
       <Container>
         <Flex className=" flex-col lg:flex-row">
           <Flex className="gap-10 lg:gap-[120px]  flex-wrap">

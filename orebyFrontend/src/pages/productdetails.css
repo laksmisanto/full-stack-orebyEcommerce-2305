@@ -1,0 +1,18 @@
+.rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.star {
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 5px;
+}
+.fill {
+  color: #a9a9a9;
+}
+
+.filled {
+  color: #ffa534;
+}
