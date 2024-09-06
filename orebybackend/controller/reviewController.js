@@ -15,14 +15,14 @@ async function submitReviewController(req, res) {
 
     await reviews.save();
 
-    await productSchema.findByIdAndUpdate(
+    await productSchema.findOneAndUpdate(
       { _id: product },
-      { $set: { review: reviews._id } },
+      { $push: { review: reviews._id } },
       { new: true }
     );
-    await userSchema.findByIdAndUpdate(
+    await userSchema.findOneAndUpdate(
       { _id: reviewBy },
-      { $set: { review: reviews._id } },
+      { $push: { review: reviews._id } },
       { new: true }
     );
 

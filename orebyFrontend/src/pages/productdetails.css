@@ -1,4 +1,4 @@
-.rating-container {
+/* .rating-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,3 +16,6 @@
 .filled {
   color: #ffa534;
 }
+.hovered {
+  color: #f0e68c;
+} */

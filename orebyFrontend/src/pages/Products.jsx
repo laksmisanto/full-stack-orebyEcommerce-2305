@@ -29,7 +29,7 @@ const Products = ({ title }) => {
   };
 
   return (
-    <div>
+    <div className="relative">
       <Container>
         <Breadcrumb title={title} />
 
