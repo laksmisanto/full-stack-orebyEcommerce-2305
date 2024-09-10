@@ -1,3 +1,4 @@
+const path = require("path");
 const categorySchema = require("../model/categorySchema");
 const productSchema = require("../model/productSchema");
 const storeSchema = require("../model/storeSchema");
@@ -84,7 +85,7 @@ async function singleProductController(req, res) {
   try {
     const singleProduct = await productSchema
       .findOne({ _id: id })
-      .populate("review");
+      .populate({ path: "review", populate: { path: "reviewBy" } });
     res
       .status(201)
       .send({ Message: "Your single product item is ", singleProduct });

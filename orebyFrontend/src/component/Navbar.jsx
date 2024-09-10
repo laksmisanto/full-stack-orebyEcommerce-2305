@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "./Image";
 import Container from "./Container";
 import List from "./List";
@@ -7,6 +7,7 @@ import Flex from "./Flex";
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
+import logo from "../../public/images/logo.png";
 
 const Navbar = () => {
   let [menu, setMenu] = useState(true);
@@ -15,7 +16,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    function navbarMenu(e) {
+    function navbarMenu() {
       if (window.innerWidth < 1024) {
         setMenu(false);
       } else {
@@ -29,7 +30,7 @@ const Navbar = () => {
     <nav className="bg-white py-8  relative z-50 ">
       <Container>
         <Flex className=" justify-between items-center">
-          <Image src="images/logo.png" alt="logo" />
+          <Image src={logo} alt="logo" />
           {menu ? (
             <IoCloseSharp
               onClick={handleMenu}

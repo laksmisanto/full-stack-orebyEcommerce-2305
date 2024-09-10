@@ -32,7 +32,7 @@ async function submitReviewController(req, res) {
   }
 }
 async function getReviewController(req, res) {
-  const productReview = await reviewSchema.find();
+  const productReview = await reviewSchema.find().populate("reviewBy");
 
   res.send({ message: "get review data", review: productReview });
 }

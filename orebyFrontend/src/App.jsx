@@ -25,6 +25,7 @@ import BannerImage from "./admin/BannerImage";
 import Discount from "./admin/Discount";
 import Error from "./component/Error";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
         <Route path="/products" element={<Products title="Shop" />}></Route>
         <Route path="/forgetpassword" element={<Forgetpassword />}></Route>
         <Route path="/productdetails/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/changepassword/:token"
           element={<Changepassword />}

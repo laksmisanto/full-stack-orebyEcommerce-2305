@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FaCartPlus, FaStar } from "react-icons/fa";
+import { FaCartPlus, FaStar, FaUser } from "react-icons/fa";
 import { MdOutlineReviews, MdOutlineClose } from "react-icons/md";
 import { useSelector } from "react-redux";
+import Container from "../component/Container";
 
 const ProductDetails = () => {
   const user = useSelector((data) => data.userInfo.value);
@@ -20,6 +21,8 @@ const ProductDetails = () => {
       await axios
         .get(`http://localhost:3000/api/v1/product/singleproduct/${param.id}`)
         .then((data) => {
+          // console.log(data.data.singleProduct.review);
+
           setProduct(data.data.singleProduct);
           setShowReview(data.data.singleProduct.review);
         })
@@ -29,6 +32,9 @@ const ProductDetails = () => {
     }
     getProduct();
   }, []);
+
+  // console.log(product);
+  console.log(showReview);
 
   let revArr = [];
   showReview.map(({ review }) => {
@@ -132,6 +138,75 @@ const ProductDetails = () => {
           </div>
         </div>
       </section>
+
+      <Container className=" border-t border-gray-500">
+        <h2 className="font-semibold text-xl text-gray-700 py-2 px-4 bg-gray-100">
+          Ratings & Reviews of {product.name}
+        </h2>
+        <div className="flex justify-start items-end gap-1 mt-4 mb-2 px-4">
+          {[...Array(5)].map((_, i) => (
+            <FaStar
+              key={i}
+              size={28}
+              className={`${
+                i + 1 <= average ? "fill-orange-600" : "fill-gray-400"
+              } `}
+            />
+          ))}
+          <p className="text-sm font-medium leading-none text-gray-500 ">
+            ({average ? average.toPrecision(2) : "0.0"})/5
+          </p>
+        </div>
+        <p className="text-sm font-medium leading-none text-gray-500 px-4">
+          {showReview && showReview.length} Reviews
+        </p>
+
+        {/* Review and Message Section */}
+
+        {/* {showReview.map((item) => console.log(item.reviewBy.name))} */}
+
+        <div className="px-4 mt-5  border-t border-gray-400">
+          {showReview.map((item, i) => (
+            <div key={i} className="border-b border-gray-400 pb-3 pt-5">
+              <div className="flex">
+                <div className="bg-gray-800 w-12 h-12 flex justify-center items-center rounded">
+                  <FaUser fill="white" size={28} />
+                </div>
+                <div className="ml-4">
+                  <div className="flex gap-1 justify-start items-end">
+                    {[...Array(5)].map((_, i) => (
+                      <FaStar
+                        key={i}
+                        className={`${
+                          i + 1 <= item.review
+                            ? "fill-orange-600"
+                            : "fill-gray-400"
+                        } `}
+                      />
+                    ))}
+                    <p className="text-sm font-medium leading-none text-gray-500 ">
+                      ({item.review ? item.review : "0"})/5
+                    </p>
+                  </div>
+                  <h4>
+                    <span className="font-semibold text-base text-gray-800">
+                      UserId:{" "}
+                    </span>{" "}
+                    {item.reviewBy && item.reviewBy.name}
+                  </h4>
+                </div>
+              </div>
+              <p className="text-base text-gray-600 pt-2">
+                <span className="font-semibold text-lg text-gray-800">
+                  Message:{" "}
+                </span>{" "}
+                {item.message}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Container>
+
       {ratingModel && (
         <div className="absolute w-full h-screen left-0 top-0 backdrop-blur-sm z-50">
           <button
