@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaCartPlus, FaStar, FaUser } from "react-icons/fa";
 import { MdOutlineReviews, MdOutlineClose } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -15,14 +15,13 @@ const ProductDetails = () => {
   const [showReview, setShowReview] = useState([]);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getProduct() {
       await axios
         .get(`http://localhost:3000/api/v1/product/singleproduct/${param.id}`)
         .then((data) => {
-          // console.log(data.data.singleProduct.review);
-
           setProduct(data.data.singleProduct);
           setShowReview(data.data.singleProduct.review);
         })
@@ -32,9 +31,6 @@ const ProductDetails = () => {
     }
     getProduct();
   }, []);
-
-  // console.log(product);
-  console.log(showReview);
 
   let revArr = [];
   showReview.map(({ review }) => {
@@ -64,6 +60,18 @@ const ProductDetails = () => {
       })
       .catch((error) => {
         console.log("review submit error: ", error);
+      });
+  };
+
+  const handleCart = async () => {
+    await axios
+      .post("http://localhost:3000/api/v1/cart/addcart", {
+        productId: param.id,
+        ownerId: user._id,
+        quantity: 1,
+      })
+      .then(() => {
+        navigate("/cart");
       });
   };
 
@@ -111,15 +119,14 @@ const ProductDetails = () => {
                 </div>
               </div>
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-                <Link
-                  to="#"
-                  title=""
+                <button
+                  onClick={handleCart}
                   className="bg-sky-700 text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none  flex items-center justify-center gap-2"
                   role="button"
                 >
                   <FaCartPlus size={"20px"} />
                   Add to cart
-                </Link>
+                </button>
                 <button
                   onClick={() => setRatingModel(true)}
                   className="flex items-center justify-center py-2.5 px-5 text-sm font-medium  focus:outline-none rounded-lg bg-sky-700 hover:bg-sky-800 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 gap-2 text-white"

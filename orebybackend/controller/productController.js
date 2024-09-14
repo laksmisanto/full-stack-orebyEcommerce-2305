@@ -83,9 +83,10 @@ async function deleteProductController(req, res) {
 async function singleProductController(req, res) {
   const { id } = req.params;
   try {
-    const singleProduct = await productSchema
-      .findOne({ _id: id })
-      .populate({ path: "review", populate: { path: "reviewBy" } });
+    const singleProduct = await productSchema.findOne({ _id: id }).populate({
+      path: "review",
+      populate: { path: "reviewBy", select: "-password" },
+    });
     res
       .status(201)
       .send({ Message: "Your single product item is ", singleProduct });
