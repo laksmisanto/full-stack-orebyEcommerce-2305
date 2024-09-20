@@ -32,48 +32,55 @@ async function getAllCartProductController(req, res) {
   res.status(200).send({ message: "show all cart product", allCartProduct });
 }
 
-async function incrementController(req, res) {
-  const { productId } = req.body;
+async function deleteCartProductController(req, res) {
+  const { id } = req.body;
 
   try {
-    const exitingProduct = await cartSchema.findOne({ productId: productId });
-
-    if (exitingProduct) {
-      const increaseQuantity = await cartSchema.findOneAndUpdate(
-        { productId: productId },
-        { $inc: { quantity: 1 } },
-        { new: true }
-      );
-
-      res.status(200).send({
-        message: "quantity update successful",
-        increaseQuantity,
-      });
-    } else {
-      res.status(401).send({ message: "product not exited" });
-    }
+    const deleteCartProduct = await cartSchema.findByIdAndDelete({ _id: id });
+    res
+      .status(200)
+      .send({ message: "cart product delete successful", deleteCartProduct });
   } catch (error) {
-    res.status(401).send({ message: "product quantity error", error });
+    res.status(400).send(error);
   }
 }
 
-async function decrementController(req, res) {
+async function quantityUpdateController(req, res) {
+  const { increment, decrement } = req.query;
   const { productId } = req.body;
 
   try {
     const exitingProduct = await cartSchema.findOne({ productId: productId });
 
     if (exitingProduct) {
-      const increaseQuantity = await cartSchema.findOneAndUpdate(
-        { productId: productId },
-        { $dec: { quantity: -1 } },
-        { new: true }
-      );
+      if (increment == "inc") {
+        const increaseQuantity = await cartSchema.findOneAndUpdate(
+          { productId: productId },
+          { $inc: { quantity: 1 } },
+          { new: true }
+        );
 
-      res.status(200).send({
-        message: "quantity update successful",
-        increaseQuantity,
-      });
+        res.status(200).send({
+          message: "quantity update successful",
+          increaseQuantity,
+        });
+      } else if (decrement == "dec") {
+        if (exitingProduct.quantity > 1) {
+          const decrementQuantity = await cartSchema.findOneAndUpdate(
+            { productId: productId },
+            { $inc: { quantity: -1 } },
+            { new: true }
+          );
+          res.status(200).send({
+            message: "quantity update successful",
+            decrementQuantity,
+          });
+        } else {
+          res.status(200).send({
+            message: "lees then 1",
+          });
+        }
+      }
     } else {
       res.status(401).send({ message: "product not exited" });
     }
@@ -84,7 +91,7 @@ async function decrementController(req, res) {
 
 module.exports = {
   addCartController,
-  incrementController,
-  decrementController,
   getAllCartProductController,
+  quantityUpdateController,
+  deleteCartProductController,
 };

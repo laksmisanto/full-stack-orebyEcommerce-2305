@@ -1,15 +1,15 @@
 const express = require("express");
 const {
   addCartController,
-  incrementController,
-  decrementController,
   getAllCartProductController,
+  quantityUpdateController,
+  deleteCartProductController,
 } = require("../../../controller/cartController");
 const router = express.Router();
 
 router.post("/addcart", addCartController);
 router.get("/allcart", getAllCartProductController);
-router.post("/quantityincrement", incrementController);
-router.post("/quantitydecrement", decrementController);
+router.post("/cartproductdelete", deleteCartProductController);
+router.post("/quantityupdate", quantityUpdateController);
 
 module.exports = router;

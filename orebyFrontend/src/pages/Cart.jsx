@@ -1,20 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { MdOutlineAdd, MdOutlineClose } from "react-icons/md";
+import { AiOutlineMinus } from "react-icons/ai";
+import { FaRegHeart, FaLongArrowAltRight } from "react-icons/fa";
 
 const Cart = () => {
   const [allCartProducts, setAllCartProducts] = useState([]);
-  const handleIncrement = async () => {
-    await axios
-      .post("http://localhost:3000/api/v1/cart/quantityincrement", {
-        productId: "66ce14caa33f3879a4dec02a",
-      })
-      .then(() => {
-        console.log("quantity is update");
-      })
-      .catch((error) => {
-        console.log("quantity update error: ", error);
-      });
-  };
+
   useEffect(() => {
     async function getCartProduct() {
       await axios
@@ -27,147 +19,118 @@ const Cart = () => {
         });
     }
     getCartProduct();
-  }, []);
+  }, [allCartProducts]);
 
-  console.log(allCartProducts);
+  let totalPrice = allCartProducts.reduce(
+    (prev, curr) => curr.productId.sellingPrice * curr.quantity + prev,
+    0
+  );
+
+  console.log(totalPrice);
+
+  const handleIncrement = async (item) => {
+    await axios
+      .post("http://localhost:3000/api/v1/cart/quantityupdate?increment=inc", {
+        productId: item.productId._id,
+      })
+      .then(() => {
+        console.log("quantity is update");
+      });
+  };
+
+  const handleDecrement = async (item) => {
+    await axios
+      .post("http://localhost:3000/api/v1/cart/quantityupdate?decrement=dec", {
+        productId: item.productId._id,
+      })
+      .then(() => {
+        console.log("quantity is update");
+      });
+  };
+
+  const handleCartProductDelete = async (item) => {
+    await axios
+      .post("http://localhost:3000/api/v1/cart/cartproductdelete", {
+        id: item._id,
+      })
+      .then(() => {
+        console.log("cart product delete successful");
+      });
+  };
 
   return (
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    <section className="bg-white py-8 antialiased md:py-16">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
+        <h2 className="text-xl font-semibold text-gray-900  sm:text-2xl">
           Shopping Cart
         </h2>
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none  lg:max-w-2xl xl:max-w-4xl">
             {allCartProducts.map((item, i) => (
               <div key={i} className="space-y-6 mb-6 ">
-                <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+                <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6">
                   <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                    <a href="#" className="shrink-0 md:order-1">
-                      <img
-                        className="hidden h-20 w-20 dark:block"
-                        src={item.productId.image}
-                        alt="image"
-                      />
-                    </a>
-                    <label htmlFor="counter-input" className="sr-only">
-                      Choose quantity:
-                    </label>
+                    <img
+                      className="h-20 w-auto"
+                      src={item.productId.image}
+                      alt="image"
+                    />
+
                     <div className="flex items-center justify-between md:order-3 md:justify-end">
                       <div className="flex items-center">
-                        <button
-                          onClick={handleIncrement}
-                          type="button"
-                          id="decrement-button"
-                          data-input-counter-decrement="counter-input"
-                          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                        >
-                          <svg
-                            className="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 18 2"
+                        {item.quantity > 1 ? (
+                          <button
+                            onClick={() => handleDecrement(item)}
+                            type="button"
+                            className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-300 hover:bg-gray-400 focus:outline-none  focus:ring-2 focus:ring-gray-400"
                           >
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M1 1h16"
-                            />
-                          </svg>
-                        </button>
-                        <input
-                          type="text"
-                          id="counter-input"
-                          data-input-counter=""
-                          className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                          placeholder=""
-                          defaultValue={item.quantity}
-                          required=""
-                        />
-                        <button
-                          type="button"
-                          id="increment-button"
-                          data-input-counter-increment="counter-input"
-                          className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                        >
-                          <svg
-                            className="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 18 18"
+                            <AiOutlineMinus />
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="disabled inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-300 hover:bg-gray-400 focus:outline-none  focus:ring-2 focus:ring-red-400"
                           >
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 1v16M1 9h16"
-                            />
-                          </svg>
+                            <AiOutlineMinus />
+                          </button>
+                        )}
+                        <div>
+                          <span className="mx-2 text-gray-700">
+                            {item.quantity}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => handleIncrement(item)}
+                          type="button"
+                          className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-300 hover:bg-gray-400 focus:outline-none  focus:ring-2 focus:ring-gray-400"
+                        >
+                          <MdOutlineAdd />
                         </button>
                       </div>
                       <div className="text-end md:order-4 md:w-32">
-                        <p className="text-base font-bold text-gray-900 dark:text-white">
-                          ${item.productId.sellingPrice}
+                        <p className="text-base font-bold text-gray-900 ">
+                          $ {item.productId.sellingPrice}
                         </p>
                       </div>
                     </div>
                     <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                      <a
-                        href="#"
-                        className="text-base font-medium text-gray-900 hover:underline dark:text-white"
-                      >
+                      <p className="text-base font-medium text-gray-600">
                         {item.productId.name}
-                      </a>
+                      </p>
                       <div className="flex items-center gap-4">
                         <button
                           type="button"
-                          className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
+                          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline"
                         >
-                          <svg
-                            className="me-1.5 h-5 w-5"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                            />
-                          </svg>
+                          <FaRegHeart />
                           Add to Favorites
                         </button>
                         <button
+                          onClick={() => handleCartProductDelete(item)}
                           type="button"
-                          className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
+                          className="inline-flex items-center text-sm gap-1 font-medium text-red-600 hover:underline "
                         >
-                          <svg
-                            className="me-1.5 h-5 w-5"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width={24}
-                            height={24}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke="currentColor"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18 17.94 6M18 18 6.06 6"
-                            />
-                          </svg>
+                          <MdOutlineClose size={20} />
                           Remove
                         </button>
                       </div>
@@ -178,86 +141,67 @@ const Cart = () => {
             ))}
           </div>
           <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-            <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-              <p className="text-xl font-semibold text-gray-900 dark:text-white">
+            <div className="space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm   sm:p-6">
+              <p className="text-xl font-semibold text-gray-900 ">
                 Order summary
               </p>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    <dt className="text-base font-normal text-gray-500 d">
                       Original price
                     </dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      $7,592.00
+                    <dd className="text-base font-medium text-gray-900 ">
+                      ${totalPrice}
                     </dd>
                   </dl>
                   <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    <dt className="text-base font-normal text-gray-500 ">
                       Savings
                     </dt>
                     <dd className="text-base font-medium text-green-600">
-                      -$299.00
+                      -$00.00
                     </dd>
                   </dl>
                   <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    <dt className="text-base font-normal text-gray-500 ">
                       Store Pickup
                     </dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      $99
+                    <dd className="text-base font-medium text-gray-900 ">
+                      $00
                     </dd>
                   </dl>
                   <dl className="flex items-center justify-between gap-4">
-                    <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                    <dt className="text-base font-normal text-gray-500 ">
                       Tax
                     </dt>
-                    <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      $799
+                    <dd className="text-base font-medium text-gray-900">
+                      $000
                     </dd>
                   </dl>
                 </div>
-                <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                  <dt className="text-base font-bold text-gray-900 dark:text-white">
-                    Total
-                  </dt>
-                  <dd className="text-base font-bold text-gray-900 dark:text-white">
-                    $8,191.00
+                <dl className="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 ">
+                  <dt className="text-base font-bold text-gray-900 ">Total</dt>
+                  <dd className="text-base font-bold text-gray-900 ">
+                    ${totalPrice}
                   </dd>
                 </dl>
               </div>
               <a
                 href="#"
-                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
               >
                 Proceed to Checkout
               </a>
               <div className="flex items-center justify-center gap-2">
-                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  {" "}
-                  or{" "}
-                </span>
+                <span className="text-sm font-normal text-gray-500 "> or </span>
                 <a
                   href="#"
                   title=""
-                  className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline "
                 >
                   Continue Shopping
-                  <svg
-                    className="h-5 w-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 12H5m14 0-4 4m4-4-4-4"
-                    />
-                  </svg>
+                  <FaLongArrowAltRight />
                 </a>
               </div>
             </div>
