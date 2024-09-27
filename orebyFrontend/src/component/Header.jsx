@@ -20,6 +20,7 @@ const Header = () => {
   let [userModal, setUserModal] = useState(false);
   let [cartModal, setcartModal] = useState(false);
   let [showAllCategory, setShowAllCategory] = useState([]);
+  let [allCartProduct, setAllCartProduct] = useState([]);
 
   let categoryRef = useRef();
   let userRef = useRef();
@@ -53,8 +54,31 @@ const Header = () => {
           setShowAllCategory(data.data.category);
         });
     }
+    async function getAllCartProduct() {
+      await axios
+        .get("http://localhost:3000/api/v1/cart/allcart")
+        .then((data) => {
+          setAllCartProduct(data.data.allCartProduct);
+        });
+    }
     getCategory();
-  });
+    getAllCartProduct();
+  }, [allCartProduct]);
+
+  let totalPrice = allCartProduct.reduce(
+    (prev, curr) => curr.productId.sellingPrice * curr.quantity + prev,
+    0
+  );
+
+  const handleDeleteCartProduct = async (item) => {
+    await axios
+      .post("http://localhost:3000/api/v1/cart/cartproductdelete", {
+        id: item._id,
+      })
+      .then(() => {
+        console.log("cart product delete successful");
+      });
+  };
 
   return (
     <header className=" bg-headerbg py-6">
@@ -81,7 +105,7 @@ const Header = () => {
           </Flex>
           <div className=" relative w-[601px]">
             <Input
-              className="w-full h-[50px] rounded-none bg-white placeholder:text-sm lg:placeholder:text-base placeholder:text-[0px] lg:placeholder:block  placeholder:pl-5"
+              className="w-full pl-3 pr-12 h-[50px] rounded-none bg-white placeholder:text-sm lg:placeholder:text-base placeholder:text-[0px] lg:placeholder:block  placeholder:pl-5"
               placeholder="Search Products"
             />
             <IoSearchSharp className=" absolute top-4 right-4 text-2xl" />
@@ -105,27 +129,46 @@ const Header = () => {
                 {userModal ? <VscTriangleDown /> : <VscTriangleUp />}
               </Flex>
               <div ref={cartRef}>
-                <FaShoppingCart />
+                <span className="bg-red-700 text-sm text-white absolute px-[4px] rounded -right-4 -top-4">
+                  {allCartProduct.length}
+                </span>
+                <FaShoppingCart size={20} />
                 {cartModal && (
                   <div className="w-[360px] z-50 absolute top-10 right-0  bg-headerbg shadow-sm  ">
                     <div className=" p-5">
-                      <Flex className=" items-center justify-between gap-5">
-                        <Image src="images/cartImage.png" />
+                      <Flex className="flex-col items-center justify-between gap-5">
+                        {allCartProduct.map((item, i) => (
+                          <Flex key={i} className="items-center justify-evenly">
+                            <div className="w-1/5">
+                              <Image src={item.productId.image} />
+                            </div>
 
-                        <div>
-                          <h3 className=" text-sm font-bold">
-                            Black Smart Watch
-                          </h3>
-                          <h4 className=" text-sm font-bold mt-3">$44.00</h4>
-                        </div>
-                        <IoCloseSharp />
+                            <div>
+                              <h3 className=" text-sm font-bold">
+                                {`${item.productId.name.slice(0, 28)}...`}
+                              </h3>
+                              <h4 className=" text-sm font-bold mt-3">
+                                ${item.productId.sellingPrice}
+                              </h4>
+                            </div>
+                            <button
+                              onClick={() => handleDeleteCartProduct(item)}
+                            >
+                              <IoCloseSharp />
+                            </button>
+                          </Flex>
+                        ))}
                       </Flex>
                     </div>
                     <div className=" bg-white p-3 ">
                       <h2 className=" font-normal text-base text-primary my-[14px]">
-                        Subtotal: <span className=" font-bold">$44.00</span>
+                        Subtotal:{" "}
+                        <span className=" font-bold">${totalPrice}</span>
                       </h2>
-                      <Link className=" font-bold text-sm font-primary py-4 px-10 border border-solid border-secandary inline-block  hover:bg-primary hover:text-white  duration-300">
+                      <Link
+                        to={"/cart"}
+                        className=" font-bold text-sm font-primary py-4 px-10 border border-solid border-secandary inline-block  hover:bg-primary hover:text-white  duration-300"
+                      >
                         View Cart
                       </Link>
                       <Link className=" font-bold text-sm font-primary py-4 px-10 border border-solid border-secandary inline-block  ml-5 hover:bg-primary hover:text-white  duration-300">

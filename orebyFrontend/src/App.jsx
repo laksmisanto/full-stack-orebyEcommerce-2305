@@ -28,6 +28,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import UserLogin from "./privateRoute/UserLogin";
 import PublicRouter from "./privateRoute/publicRouter";
+import CheckOut from "./pages/CheckOut";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
         <Route path="/forgetpassword" element={<Forgetpassword />}></Route>
         <Route path="/productdetails/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<CheckOut />} />
         <Route
           path="/changepassword/:token"
           element={<Changepassword />}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MdOutlineAdd, MdOutlineClose } from "react-icons/md";
 import { AiOutlineMinus } from "react-icons/ai";
 import { FaRegHeart, FaLongArrowAltRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [allCartProducts, setAllCartProducts] = useState([]);
@@ -25,8 +26,6 @@ const Cart = () => {
     (prev, curr) => curr.productId.sellingPrice * curr.quantity + prev,
     0
   );
-
-  console.log(totalPrice);
 
   const handleIncrement = async (item) => {
     await axios
@@ -187,22 +186,22 @@ const Cart = () => {
                   </dd>
                 </dl>
               </div>
-              <a
-                href="#"
-                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300"
+              <Link
+                to={"/checkout"}
+                state={{ totalPrice: totalPrice }}
+                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium bg-sky-600 text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-sky-700 hover:bg-sky-700"
               >
                 Proceed to Checkout
-              </a>
+              </Link>
               <div className="flex items-center justify-center gap-2">
                 <span className="text-sm font-normal text-gray-500 "> or </span>
-                <a
-                  href="#"
-                  title=""
+                <Link
+                  to={"/products"}
                   className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline "
                 >
                   Continue Shopping
                   <FaLongArrowAltRight />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
