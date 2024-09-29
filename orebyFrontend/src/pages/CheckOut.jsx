@@ -1,8 +1,23 @@
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 const CheckOut = () => {
   const { state } = useLocation();
-  console.log(state);
+
+  const handlePayment = () => {
+    // console.log("totalPrice:", state.totalPrice);
+    axios
+      .get("http://localhost:3000/api/v1/payment/init")
+      .then((data) => {
+        // console.log(data);
+        window.location.replace(
+          `https://sandbox.sslcommerz.com/EasyCheckOut/${data.data}`
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <>
       <div className="font-sans bg-white p-4">
@@ -96,9 +111,10 @@ const CheckOut = () => {
             <div className="flex flex-wrap justify-end gap-4 mt-12">
               <button
                 type="button"
+                onClick={handlePayment}
                 className="px-6 py-3 text-sm font-semibold tracking-wide bg-sky-600 text-white rounded-md hover:bg-sky-700"
               >
-                Pay now
+                Payment
               </button>
             </div>
           </div>
