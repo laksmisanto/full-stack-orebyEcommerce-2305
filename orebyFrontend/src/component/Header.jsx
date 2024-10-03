@@ -131,9 +131,11 @@ const Header = () => {
                 {userModal ? <VscTriangleDown /> : <VscTriangleUp />}
               </Flex>
               <div ref={cartRef}>
-                <span className="bg-red-700 text-sm text-white absolute px-[4px] rounded -right-4 -top-4">
-                  {allCartProduct.length}
-                </span>
+                {allCartProduct.length > 1 && (
+                  <span className="bg-red-700 text-sm text-white absolute px-[4px] rounded -right-4 -top-4">
+                    {allCartProduct.length}
+                  </span>
+                )}
                 <FaShoppingCart size={20} />
                 {cartModal && (
                   <div className="w-[360px] z-50 absolute top-10 right-0  bg-headerbg shadow-sm  ">
