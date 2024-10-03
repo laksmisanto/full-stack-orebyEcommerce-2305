@@ -14,8 +14,10 @@ import Image from "./Image";
 import { IoCloseSharp } from "react-icons/io5";
 import { VscTriangleUp } from "react-icons/vsc";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const userId = useSelector((data) => data.userInfo.value._id);
   let [categoryModal, setCategoryModal] = useState(false);
   let [userModal, setUserModal] = useState(false);
   let [cartModal, setcartModal] = useState(false);
@@ -56,7 +58,7 @@ const Header = () => {
     }
     async function getAllCartProduct() {
       await axios
-        .get("http://localhost:3000/api/v1/cart/allcart")
+        .get(`http://localhost:3000/api/v1/cart/allcart/${userId}`)
         .then((data) => {
           setAllCartProduct(data.data.allCartProduct);
         });

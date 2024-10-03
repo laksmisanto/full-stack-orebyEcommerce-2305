@@ -11,7 +11,7 @@ route.get("/init", (req, res) => {
     total_amount: 100,
     currency: "BDT",
     tran_id: "REF123", // use unique tran_id for each api call
-    success_url: "http://localhost:3030/success",
+    success_url: "http://localhost:3000/api/v1/payment/success",
     fail_url: "http://localhost:3030/fail",
     cancel_url: "http://localhost:3030/cancel",
     ipn_url: "http://localhost:3030/ipn",
@@ -41,13 +41,21 @@ route.get("/init", (req, res) => {
   sslcz.init(data).then((apiResponse) => {
     // Redirect the user to payment gateway
     let GatewayPageURL = apiResponse.GatewayPageURL;
-    const paymentUrlId = GatewayPageURL.split("/");
-    const uniqId = paymentUrlId[paymentUrlId.length - 1];
-    res.status(200).send(uniqId);
+    // const paymentUrlId = GatewayPageURL.split("/");
+    // const uniqId = paymentUrlId[paymentUrlId.length - 1];
+    // res.status(200).send(uniqId);
     // console.log(GatewayPageURL);
     // res.redirect(GatewayPageURL);
-    // console.log("Redirecting to: ", GatewayPageURL);
+    console.log("Redirecting to: ", GatewayPageURL);
+    if (GatewayPageURL) {
+      // const paymentSuc = {name, address, }
+    }
+    res.send({ GatewayPageURL });
   });
+});
+
+route.post("/success", async (req, res) => {
+  res.redirect("http://localhost:5173/success");
 });
 
 module.exports = route;

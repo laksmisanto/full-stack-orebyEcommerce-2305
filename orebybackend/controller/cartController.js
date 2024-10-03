@@ -1,4 +1,5 @@
 const cartSchema = require("../model/cartSchema");
+const ObjectId = require("mongodb");
 
 async function addCartController(req, res) {
   const { productId, ownerId, quantity } = req.body;
@@ -28,8 +29,24 @@ async function addCartController(req, res) {
 }
 
 async function getAllCartProductController(req, res) {
-  const allCartProduct = await cartSchema.find().populate("productId");
-  res.status(200).send({ message: "show all cart product", allCartProduct });
+  const { id } = req.params;
+
+  // console.log(id);
+
+  try {
+    if (id) {
+      const allCartProduct = await cartSchema
+        .find({ ownerId: id })
+        .populate("productId");
+      res
+        .status(200)
+        .send({ message: "show all cart product", allCartProduct });
+    } else {
+      res.status(400).send({ message: " can't show cart product" });
+    }
+  } catch (error) {
+    res.status(400).send({ message: error });
+  }
 }
 
 async function deleteCartProductController(req, res) {

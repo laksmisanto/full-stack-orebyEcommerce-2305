@@ -67,6 +67,9 @@ const router = createBrowserRouter(
         </Route>
       </Route>
       <Route path="*" element={<Error />} />
+      <Route>
+        <Route path="/success" element={<h2>Success</h2>} />
+      </Route>
     </Route>
   )
 );

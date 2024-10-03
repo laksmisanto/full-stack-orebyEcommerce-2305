@@ -4,23 +4,27 @@ import { MdOutlineAdd, MdOutlineClose } from "react-icons/md";
 import { AiOutlineMinus } from "react-icons/ai";
 import { FaRegHeart, FaLongArrowAltRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Cart = () => {
   const [allCartProducts, setAllCartProducts] = useState([]);
 
+  const userId = useSelector((data) => data.userInfo.value._id);
+
   useEffect(() => {
     async function getCartProduct() {
       await axios
-        .get("http://localhost:3000/api/v1/cart/allcart")
+        .get(`http://localhost:3000/api/v1/cart/allcart/${userId}`)
         .then((data) => {
           setAllCartProducts(data.data.allCartProduct);
+          console.log(data.data);
         })
         .catch((error) => {
           console.log("get quantity error: ", error);
         });
     }
     getCartProduct();
-  }, [allCartProducts]);
+  }, []);
 
   let totalPrice = allCartProducts.reduce(
     (prev, curr) => curr.productId.sellingPrice * curr.quantity + prev,

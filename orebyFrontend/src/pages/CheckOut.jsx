@@ -9,10 +9,8 @@ const CheckOut = () => {
     axios
       .get("http://localhost:3000/api/v1/payment/init")
       .then((data) => {
-        // console.log(data);
-        window.location.replace(
-          `https://sandbox.sslcommerz.com/EasyCheckOut/${data.data}`
-        );
+        const url = data.data?.GatewayPageURL;
+        window.location.replace(url);
       })
       .catch((err) => {
         console.log(err);
